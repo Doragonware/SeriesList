@@ -62,16 +62,18 @@ namespace Application.Services
             return serie;
         }
 
-        public async Task<Serie> RemoveAsync(Serie serie, CancellationToken cancellationToken = default)
+        public async Task<Serie> RemoveAsync(int id, CancellationToken cancellationToken = default)
         {
-            if (serie == null)
-                throw new ArgumentNullException(nameof(serie));
+            if (id < 0)
+                throw new ArgumentOutOfRangeException(nameof(id), "can't be less than zero.");
 
-            _unitOfWork.Series.Delete(serie);
+            var serieToDelete = await _unitOfWork.Series.SingleOrDefaltAsync(id, cancellationToken);
+
+            _unitOfWork.Series.Delete(serieToDelete);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return serie;
+            return serieToDelete;
         }
     }
 }

@@ -37,8 +37,8 @@ namespace Domain.Services
         /// <summary>
         /// Removes a Serie.
         /// </summary>
-        /// <param name="serie">Serie to remove.</param>
+        /// <param name="id">Id of the Serie to remove.</param>
         /// <returns>Serie which were removed.</returns>
-        Task<Serie> RemoveAsync(Serie serie, CancellationToken cancellationToken = default);
+        Task<Serie> RemoveAsync(int id, CancellationToken cancellationToken = default);
     }
 }

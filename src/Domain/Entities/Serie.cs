@@ -32,7 +32,7 @@ namespace Domain.Entities
             Id = id;
         }
 
-        private void SetName(string name)
+        public void SetName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Can't be null or whitespace.", nameof(name));
@@ -40,7 +40,7 @@ namespace Domain.Entities
             Name = name;
         }
 
-        private void SetEpisodes(int episodes)
+        public void SetEpisodes(int episodes)
         {
             if (episodes < 0)
                 throw new ArgumentOutOfRangeException(nameof(episodes), "can't be less than zero.");
@@ -49,7 +49,7 @@ namespace Domain.Entities
         }
 
         // TODO - yes :/
-        private void SetRelease(DateTime release)
+        public void SetRelease(DateTime release)
         {
             Release = release;
         }

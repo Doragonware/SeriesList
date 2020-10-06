@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Api.Dtos;
 using Domain.Entities;
 using Domain.Services;
-using Domain.UnitOfWorks.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -16,22 +15,20 @@ namespace Api.Controllers
         /// <see cref="ISerieService"/> to use for managing series.
         /// </summary>
         private readonly ISerieService _serieService;
-        private readonly ISerieRepository _serieRepository;
 
-        public SeriesController(ISerieService serieService, ISerieRepository serieRepository)
+        public SeriesController(ISerieService serieService)
         {
             if (serieService == null)
                 throw new ArgumentNullException(nameof(serieService));
 
             _serieService = serieService;
-            _serieRepository = serieRepository;
 
         }
 
         [HttpGet]
         public async Task<IActionResult> GetSeries()
         {
-            var series = await _serieRepository.AllSync();
+            var series = await _serieService.AllAsync();
             return Ok(series);
         }
 
@@ -56,5 +53,28 @@ namespace Api.Controllers
 
             return CreatedAtRoute("SerieById", new { id = serie.Id }, serie);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateSerie(int id, [FromBody] SerieDto serieDto)
+        {
+            var serie = await _serieService.SingleOrDefaultAsync(id);
+
+            serie.SetName(serieDto.Name);
+            serie.SetEpisodes(serieDto.Episodes);
+            serie.SetRelease(serieDto.Release);
+
+            await _serieService.UpdateAsync(serie);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSerie(int id)
+        {
+            await _serieService.RemoveAsync(id);
+
+            return NoContent();
+        }
+
     }
 }
