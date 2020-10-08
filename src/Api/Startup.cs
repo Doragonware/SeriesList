@@ -1,15 +1,18 @@
+using System.Text;
 using Application.Services;
 using Domain.Services;
 using Domain.UnitOfWorks;
 using Domain.UnitOfWorks.Repositories;
 using Infrastructure.UnitOfWorks.EFCore;
 using Infrastructure.UnitOfWorks.EFCore.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Api
 {
@@ -33,7 +36,24 @@ namespace Api
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISerieRepository, SerieRepository>();
             services.AddScoped<ISerieService, SerieService>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
 
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII
+                            .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
 
             services.AddControllers();
         }
@@ -50,6 +70,7 @@ namespace Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

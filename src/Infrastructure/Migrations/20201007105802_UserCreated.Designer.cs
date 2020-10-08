@@ -3,14 +3,16 @@ using System;
 using Infrastructure.UnitOfWorks.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(SeriesListContext))]
-    partial class SeriesListContextModelSnapshot : ModelSnapshot
+    [Migration("20201007105802_UserCreated")]
+    partial class UserCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

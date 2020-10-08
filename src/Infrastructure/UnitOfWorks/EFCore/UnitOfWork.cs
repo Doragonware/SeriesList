@@ -18,6 +18,8 @@ namespace Infrastructure.UnitOfWorks.EFCore
         /// Hidden field for <see cref="Series"/>.
         /// </summary>
         private ISerieRepository _series;
+        private IAuthRepository _auth;
+        private IUserRepository _users;
 
 
         /// <summary>
@@ -34,6 +36,13 @@ namespace Infrastructure.UnitOfWorks.EFCore
 
         public ISerieRepository Series
             => (_series ??= new SerieRepository(_seriesListContext));
+
+        public IAuthRepository Auth
+        => (_auth ??= new AuthRepository(_seriesListContext));
+
+        public IUserRepository Users
+            => (_users ??= new UserRepository(_seriesListContext));
+
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {

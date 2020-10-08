@@ -11,7 +11,7 @@ namespace Application.Services
     public class SerieService : ISerieService
     {
         /// <summary>
-        /// <see cref="IUnitOfWork"/> to use accessing storage.
+        /// <see cref="IUnitOfWork"/> to use for accessing storage.
         /// </summary>
         private readonly IUnitOfWork _unitOfWork;
 

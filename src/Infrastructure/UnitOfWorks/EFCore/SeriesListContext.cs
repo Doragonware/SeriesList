@@ -13,6 +13,7 @@ namespace Infrastructure.UnitOfWorks.EFCore
             base.OnModelCreating(modelBuilder);
         
             modelBuilder.ApplyConfiguration(new SerieETC());
+            modelBuilder.ApplyConfiguration(new UserETC());
         }
     }
 }

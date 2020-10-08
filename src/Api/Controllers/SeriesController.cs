@@ -51,7 +51,7 @@ namespace Api.Controllers
 
             await _serieService.CreateAsync(serie);
 
-            return CreatedAtRoute("SerieById", new { id = serie.Id }, serie);
+            return CreatedAtRoute(nameof(GetSerieById), new { id = serie.Id }, serie);
         }
 
         [HttpPut("{id}")]
